@@ -6,82 +6,64 @@ import {
   CardText,
   CardBody,
   CardTitle,
-BreadcrumbItem,Breadcrumb,Row,Col, Button,Label,Modal, ModalBody, ModalHeader} from "reactstrap";
-import { Control, LocalForm, Errors, isValid} from 'react-redux-form';
+  BreadcrumbItem, Breadcrumb, Row, Col, Button, Label, Modal, ModalBody, ModalHeader
+} from "reactstrap";
+import { Control, LocalForm, Errors, isValid } from 'react-redux-form';
 import { Link } from 'react-router-dom';
-import { Loading} from './LoadingComponent';
+import { Loading } from './LoadingComponent';
 
 
 
 
-const required = (val)=> val && val.length;
-const maxLength =(len) => (val) => !(val) || (val.length <= len);
-const minLength =(len) => (val) => (val) && (val.length >= len);
+const required = (val) => val && val.length;
+const maxLength = (len) => (val) => !(val) || (val.length <= len);
+const minLength = (len) => (val) => (val) && (val.length >= len);
 //const isNumber = (val) => !isNaN(Number(val));
- 
 
-  class CommentForm extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        isModalOpen: false
-      }
+
+class CommentForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isModalOpen: false
+    }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
-    }
-  
+  }
+
   //render () {
-   // return(
-   // <Row className="form-group">
-    //<Col md={{size:10, offset:2}}>
-    //    <Button type="submit" color="primary"  >
-    //        Send Feedback
-    ///    </Button>
-   // </Col>
-//</Row>
-    //)
+  // return(
+  // <Row className="form-group">
+  //<Col md={{size:10, offset:2}}>
+  //    <Button type="submit" color="primary"  >
+  //        Send Feedback
+  ///    </Button>
+  // </Col>
+  //</Row>
+  //)
 
- // }
- toggleModal() {
-  this.setState({
-    isModalOpen: !this.state.isModalOpen
-  });
-}
+  // }
+  toggleModal() {
+    this.setState({
+      isModalOpen: !this.state.isModalOpen
+    });
+  }
 
- 
-    handleSubmit(values, dishId, addComment) {
-    
+
+  handleSubmit(values, dishId, addComment) {
+
     this.toggleModal();
     addComment(dishId, values.rating, values.author, values.comment);
   }
-  
 
-    
+
+
 
 
   showImageAndName(dish) {
-    if(dish.isLoading) {
-      return(
-        <div className="container">
-          <div className="row">
-            <Loading />
-          </div>
-        
-        </div>
-      )
-    }
-    else if (dish.errMess) {
-      return(
-      <div className="container">
-          <div className="row">
-            <h4>{dish.errMess}</h4>
-          </div>
-        
-        </div>
-      )
-    }
-    
-    (dish != null) 
+
+
+    if (dish != null)
       return (
         <Card>
           <CardImg top src={dish.image} alt={dish.name} />
@@ -91,13 +73,13 @@ const minLength =(len) => (val) => (val) && (val.length >= len);
           </CardBody>
         </Card>
       );
-      
+
   }
 
   render() {
-    const addComment= this.props.addComment;
+    const addComment = this.props.addComment;
     const comm = this.props.comments.map(dish => {
-      
+
       return (
         <div>
           <h4>{dish.comment}</h4>
@@ -109,69 +91,69 @@ const minLength =(len) => (val) => (val) && (val.length >= len);
               day: "2-digit"
             }).format(new Date(Date.parse(dish.date)))}
           </p>
-          
+
         </div>
 
 
       );
     });
-    
-     
 
-    
-   
+
+
+
+
     return (
       <div className="container">
-        
+
         <div className="row">
-        <Breadcrumb>
+          <Breadcrumb>
 
-             <BreadcrumbItem>
+            <BreadcrumbItem>
 
-          
-         <Link to = '/menu'>Menu</Link>
 
-                 </BreadcrumbItem>
+              <Link to='/menu'>Menu</Link>
 
-          <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
-        </Breadcrumb>
-        <div className="col-12">
-          <h3>{this.props.dish.name}</h3>
-          <hr/>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+          </Breadcrumb>
+          <div className="col-12">
+            <h3>{this.props.dish.name}</h3>
+            <hr />
           </div>
         </div>
-      
-      
-      <div className="row">
-      <div className="col-12 col-md-5 m-1">
-          {this.showImageAndName(this.props.dish)}
-        </div>
-        <div className="col-12 col-md-5 m-1">
-        
 
-          <h3>COMMENTS</h3>
-          <Media list>{comm}</Media>
-       
-          <Button outline onClick={this.toggleModal} ><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
+
+        <div className="row">
+          <div className="col-12 col-md-5 m-1">
+            {this.showImageAndName(this.props.dish)}
+          </div>
+          <div className="col-12 col-md-5 m-1">
+
+
+            <h3>COMMENTS</h3>
+            <Media list>{comm}</Media>
+
+            <Button outline onClick={this.toggleModal} ><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
             <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
               <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
               <ModalBody>
-          
-              <LocalForm onSubmit={(values)=>this.handleSubmit(values, this.props.dish.id, addComment)}>
-  <Label htmlFor="option"><strong>Rating</strong></Label>
-                    <Control.select model=".rating" name="rating"
-                      className="form-control">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
 
-                    </Control.select>
-                 
-    
+                <LocalForm onSubmit={(values) => this.handleSubmit(values, this.props.dish.id, addComment)}>
+                  <Label htmlFor="option"><strong>Rating</strong></Label>
+                  <Control.select model=".rating" name="rating"
+                    className="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
 
-                         <Row className="form-group">
+                  </Control.select>
+
+
+
+                  <Row className="form-group">
                     <Label htmlFor="author"><strong>Your Name</strong></Label>
                     <Control.text model=".author" id="author" name="author"
                       className="form-control"
@@ -206,18 +188,18 @@ const minLength =(len) => (val) => (val) && (val.length >= len);
                       }} />
                   </Row>
 
-                              <Row className="form-group">
-                                  
-                                      <Button type="submit" color="primary"  >
-                                          Submit
+                  <Row className="form-group">
+
+                    <Button type="submit" color="primary"  >
+                      Submit
                                       </Button>
-                            </Row>
-                   </LocalForm>          
-           </ModalBody>
-        </Modal>
-      </div>
-    </div>
-  </div >
+                  </Row>
+                </LocalForm>
+              </ModalBody>
+            </Modal>
+          </div>
+        </div>
+      </div >
     );
   }
 }
