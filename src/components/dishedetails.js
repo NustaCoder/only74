@@ -98,109 +98,119 @@ class CommentForm extends Component {
       );
     });
 
+    if (this.props.isLoading) {
+      return (
+        <Loading />
+      );
+    }
+    else if (this.props.errmess) {
+      return (
+        <h4>{this.props.errmess}</h4>
+      );
+    }
 
 
+    else {
+      return (
+        <div className="container">
+
+          <div className="row">
+            <Breadcrumb>
+
+              <BreadcrumbItem>
 
 
-    return (
-      <div className="container">
+                <Link to='/menu'>Menu</Link>
 
-        <div className="row">
-          <Breadcrumb>
+              </BreadcrumbItem>
 
-            <BreadcrumbItem>
-
-
-              <Link to='/menu'>Menu</Link>
-
-            </BreadcrumbItem>
-
-            <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
-          </Breadcrumb>
-          <div className="col-12">
-            <h3>{this.props.dish.name}</h3>
-            <hr />
+              <BreadcrumbItem active>{this.props.dish.name}</BreadcrumbItem>
+            </Breadcrumb>
+            <div className="col-12">
+              <h3>{this.props.dish.name}</h3>
+              <hr />
+            </div>
           </div>
-        </div>
 
 
-        <div className="row">
-          <div className="col-12 col-md-5 m-1">
-            {this.showImageAndName(this.props.dish)}
-          </div>
-          <div className="col-12 col-md-5 m-1">
+          <div className="row">
+            <div className="col-12 col-md-5 m-1">
+              {this.showImageAndName(this.props.dish)}
+            </div>
+            <div className="col-12 col-md-5 m-1">
 
 
-            <h3>COMMENTS</h3>
-            <Media list>{comm}</Media>
+              <h3>COMMENTS</h3>
+              <Media list>{comm}</Media>
 
-            <Button outline onClick={this.toggleModal} ><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
-            <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-              <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
-              <ModalBody>
+              <Button outline onClick={this.toggleModal} ><span className="fa fa-pencil fa-lg"></span> Submit Comment</Button>
+              <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+                <ModalBody>
 
-                <LocalForm onSubmit={(values) => this.handleSubmit(values, this.props.dish.id, addComment)}>
-                  <Label htmlFor="option"><strong>Rating</strong></Label>
-                  <Control.select model=".rating" name="rating"
-                    className="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                  <LocalForm onSubmit={(values) => this.handleSubmit(values, this.props.dish.id, addComment)}>
+                    <Label htmlFor="option"><strong>Rating</strong></Label>
+                    <Control.select model=".rating" name="rating"
+                      className="form-control">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
 
-                  </Control.select>
+                    </Control.select>
 
 
 
-                  <Row className="form-group">
-                    <Label htmlFor="author"><strong>Your Name</strong></Label>
-                    <Control.text model=".author" id="author" name="author"
-                      className="form-control"
-                      validators={{
-                        required, minLength: minLength(3), maxLength: maxLength(15)
-                      }}
-                    />
-                    <Errors className="text-danger"
-                      model=".author"
-                      show="touched"
-                      messages={{
-                        required: "*Required",
-                        minLength: " *invalid name",
-                        maxLength: " *invalid name"
-                      }}
-                    />
-                  </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="author"><strong>Your Name</strong></Label>
+                      <Control.text model=".author" id="author" name="author"
+                        className="form-control"
+                        validators={{
+                          required, minLength: minLength(3), maxLength: maxLength(15)
+                        }}
+                      />
+                      <Errors className="text-danger"
+                        model=".author"
+                        show="touched"
+                        messages={{
+                          required: "*Required",
+                          minLength: " *invalid name",
+                          maxLength: " *invalid name"
+                        }}
+                      />
+                    </Row>
 
-                  <Row className="form-group">
-                    <Label htmlFor="comment" ><strong>Comment</strong></Label>
-                    <Control.textarea model=".comment" id="comment" name="comment"
-                      rows="6"
-                      className="form-control"
-                      validators={{
-                        required
-                      }} />
-                    <Errors className="text-danger"
-                      model=".comment"
-                      show="touched"
-                      messages={{
-                        required: "*required"
-                      }} />
-                  </Row>
+                    <Row className="form-group">
+                      <Label htmlFor="comment" ><strong>Comment</strong></Label>
+                      <Control.textarea model=".comment" id="comment" name="comment"
+                        rows="6"
+                        className="form-control"
+                        validators={{
+                          required
+                        }} />
+                      <Errors className="text-danger"
+                        model=".comment"
+                        show="touched"
+                        messages={{
+                          required: "*required"
+                        }} />
+                    </Row>
 
-                  <Row className="form-group">
+                    <Row className="form-group">
 
-                    <Button type="submit" color="primary"  >
-                      Submit
+                      <Button type="submit" color="primary"  >
+                        Submit
                                       </Button>
-                  </Row>
-                </LocalForm>
-              </ModalBody>
-            </Modal>
+                    </Row>
+                  </LocalForm>
+                </ModalBody>
+              </Modal>
+            </div>
           </div>
-        </div>
-      </div >
-    );
+        </div >
+      );
+    }
   }
 }
 
